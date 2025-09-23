@@ -1,4 +1,3 @@
-# regex_extractor.py
 import re
 
 def extract_emails(text):
@@ -13,7 +12,7 @@ def extract_urls(text):
 
 def extract_phone_numbers(text):
     # Regex for extracting phone numbers
-    # Matches formats like: (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890
+    # Matches formats like: (123) 456-7890, 123-456-7890, 123.456.7890
     pattern = r"\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}"
     return re.findall(pattern, text)
 
@@ -22,7 +21,16 @@ def extract_credit_cards(text):
     pattern = r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b"
     return re.findall(pattern, text)
 
-# This functions ensures no duplicates in the extracted lists
+def extract_currency_amounts(text):
+    # Regex for extracting currency amounts
+    pattern = r"""
+        (?:[\$€£¥₦₩₹]\s?\d{1,3}(?:,\d{3})*(?:\.\d+)?)     
+        |
+        (?:\d{1,3}(?:,\d{3})*(?:\.\d+)?\s?(?:USD|EUR|GBP|RWF|KES|ZAR|NGN))  
+    """
+    return re.findall(pattern, text, re.VERBOSE)
+
+# This function ensures no duplicates in the extracted lists
 def uniq(seq):
     seen = set()
     out = []
